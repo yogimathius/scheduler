@@ -6,7 +6,6 @@ export default function InterviewerListItem(props) {
   const onClick = useCallback(() => {
     props.setInterviewer(props.id)
   }, [props])
-  console.log("props: ", props.id);
   const interviewerClass = classnames("interviewers__item",{
 		"interviewers__item--selected": props.selected
 	})

@@ -2,6 +2,53 @@ import React, { useState } from "react";
 
 import "components/Application.scss";
 import DayList from "./DayList";
+import Appointment from "components/appointment"
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "2pm",
+  },
+  {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Jamie Jones",
+      interviewer: {
+        id: 1,
+        name: "Mildred Nazir",
+        avatar: "https://i.imgur.com/T2WwVfS.png",
+      }
+    }
+  },
+  {
+    id: 5,
+    time: "5pm",
+  }
+];
 
 const days = [
   {
@@ -21,9 +68,13 @@ const days = [
   },
 ];
 
+const appointmentList = appointments.map((appointment) => {
+  return <Appointment key={appointment.id} {...appointment} />;
+});
+
 export default function Application(props) {
   const [day, SetDay] = useState("Monday")
-  const [interviewer, setInterviewer] = useState("")
+  console.log("length: ", appointmentList.length);
   return (
     <main className="layout">
       <section className="sidebar">
@@ -48,7 +99,8 @@ export default function Application(props) {
         {/* Replace this with the sidebar elements during the "Project Setup & Familiarity" activity. */}
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+      {appointmentList}
+          
       </section>
       
     </main>
