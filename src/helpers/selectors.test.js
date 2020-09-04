@@ -92,7 +92,7 @@ test.skip("getInterview returns an object with the interviewer data", () => {
 });
 
 test.skip("getInterview returns null if no interview is booked", () => {
-  const result = getInterview(state, state.days.interviewers);
+  const result = getInterview(state, state.appointments["2"].interview);
   expect(result).toBeNull();
 });
 
@@ -108,8 +108,16 @@ test("getInterviewersForDay returns an array with a length matching the number o
 
 test("getInterviewersForDay returns an array containing the correct appointment objects", () => {
   const [first, second] = getInterviewersForDay(state, "Tuesday");
-  expect(first).toEqual("2");
-  expect(second).toEqual("3");
+  expect(first).toEqual({
+    id: 2,
+    name: "Tori Malcolm",
+    avatar: "https://i.imgur.com/Nmx0Qxo.png"
+  });
+  expect(second).toEqual(
+    {id: 3,
+    name: "Toni Falcone",
+    avatar: "https://i.imgur.com/Nmx0Qxo.png"
+  });
 });
 
 test("getInterviewersForDay returns an empty array when the days data is empty", () => {

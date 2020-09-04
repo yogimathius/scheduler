@@ -29,13 +29,39 @@ const getInterview = (state, interview) => {
 }
 
 const getInterviewersForDay = (state, day) => {
-	let interviewersArr = [];
+	let intArr = [];
 	const filteredDays = state.days.filter(days => days.name === day);
-	
+
 	const dayMap = filteredDays.map(days => { 
-		console.log(days.interviewers);
+		const intValues = Object.values(state.interviewers)
 		
-	return (days.interviewers);
+		days.appointments.forEach(int => {
+			intValues.forEach(intValue => {
+				if (intValue.id === int) {
+					intArr.push(intValue)
+				}
+			})
+		})
 	})
+	return (intArr);
 }
+
+
+const getInterviewersForDay = (state, day) => {
+	let interviewersForDay = [];
+	const dayName = day;
+	const selectedDay = state.days.filter(day => day.name === dayName)[0];
+	if(!selectedDay){
+		return interviewersForDay;
+	}
+	let interviewer;
+	for (interviewer of selectedDay.interviewers) {
+		interviewersForDay.push(interviewer);
+	}
+	interviewersForDay = interviewersForDay.map(interviewer => state.interviewers[interviewer]);
+	console.log(interviewersForDay);
+	return interviewersForDay;
+	}
+
 export {getAppointmentsForDay, getInterview, getInterviewersForDay}
+
