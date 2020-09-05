@@ -28,25 +28,23 @@ const getInterview = (state, interview) => {
 	return interviewObj;
 }
 
-const getInterviewersForDay = (state, day) => {
-	let intArr = [];
-	const filteredDays = state.days.filter(days => days.name === day);
+// const getInterviewersForDay = (state, day) => {
+// 	let intArr = [];
+// 	const filteredDays = state.days.filter(days => days.name === day);
 
-	const dayMap = filteredDays.map(days => { 
-		const intValues = Object.values(state.interviewers)
+// 	const dayMap = filteredDays.map(days => { 
+// 		const intValues = Object.values(state.interviewers)
 		
-		days.appointments.forEach(int => {
-			intValues.forEach(intValue => {
-				if (intValue.id === int) {
-					intArr.push(intValue)
-				}
-			})
-		})
-	})
-	return (intArr);
-}
-
-
+// 		days.appointments.forEach(int => {
+// 			intValues.forEach(intValue => {
+// 				if (intValue.id === int) {
+// 					intArr.push(intValue)
+// 				}
+// 			})
+// 		})
+// 	})
+// 	return (intArr);
+// }
 const getInterviewersForDay = (state, day) => {
 	let interviewersForDay = [];
 	const dayName = day;
