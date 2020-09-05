@@ -57,7 +57,6 @@ const getInterviewersForDay = (state, day) => {
 		interviewersForDay.push(interviewer);
 	}
 	interviewersForDay = interviewersForDay.map(interviewer => state.interviewers[interviewer]);
-	console.log(interviewersForDay);
 	return interviewersForDay;
 	}
 
