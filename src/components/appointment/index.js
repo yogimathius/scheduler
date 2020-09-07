@@ -41,19 +41,19 @@ export default function(props) {
 		transition(CONFIRM)
 	}
 
-	function deleteInterview(id) {
+	function deleteInterview(id, interview) {
 		transition(DELETING, true)
-		props.cancelInterview(id)
+		props.cancelInterview(id, interview)
 		.catch(error => { console.log("error: ", error);
 			transition(ERROR_DELETE, true)})
 		transition(EMPTY)
 	}
 
 	function edit(student, interviewer) {
-		const interview = {
-			student: student,
-			interviewer: interviewer
-		}
+		// const interview = {
+		// 	student: student,
+		// 	interviewer: interviewer
+		// }
 		transition(EDIT)
 	}
 
@@ -94,13 +94,14 @@ export default function(props) {
 					<Confirm 
 						id={props.id}
 						onCancel={() => back()}
-						onConfirm={() => deleteInterview(props.id)}
+						onConfirm={() => deleteInterview(props.id, props.interview)}
 					/>
 				)}
 
 				{mode === EDIT && (
 					<Form 
-						student={props.student}
+						name={props.interview.student}
+						interviewer={props.interview.interviewer.id}
 						interviewers={props.interviewers}
 						onCancel={() => back()}
 						onSave={save}						

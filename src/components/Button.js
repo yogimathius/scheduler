@@ -1,6 +1,5 @@
 import React from "react";
 import classnames from 'classnames/bind';
-import { action } from "@storybook/addon-actions";
 import "components/Button.scss";
 
 export default function Button(props) {

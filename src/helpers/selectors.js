@@ -4,7 +4,6 @@ const getAppointmentsForDay = (state, day) => {
 
 	const dayMap = filteredDays.map(days => { 
 		const apptValues = Object.values(state.appointments)
-		
 		days.appointments.forEach(appt => {
 			apptValues.forEach(apptValue => {
 				if (apptValue.id === appt) {
@@ -28,23 +27,6 @@ const getInterview = (state, interview) => {
 	return interviewObj;
 }
 
-// const getInterviewersForDay = (state, day) => {
-// 	let intArr = [];
-// 	const filteredDays = state.days.filter(days => days.name === day);
-
-// 	const dayMap = filteredDays.map(days => { 
-// 		const intValues = Object.values(state.interviewers)
-		
-// 		days.appointments.forEach(int => {
-// 			intValues.forEach(intValue => {
-// 				if (intValue.id === int) {
-// 					intArr.push(intValue)
-// 				}
-// 			})
-// 		})
-// 	})
-// 	return (intArr);
-// }
 const getInterviewersForDay = (state, day) => {
 	let interviewersForDay = [];
 	const dayName = day;
@@ -60,5 +42,11 @@ const getInterviewersForDay = (state, day) => {
 	return interviewersForDay;
 	}
 
-export {getAppointmentsForDay, getInterview, getInterviewersForDay}
+
+
+export {
+	getAppointmentsForDay, 
+	getInterview, 
+	getInterviewersForDay,
+}
 
