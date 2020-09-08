@@ -56,6 +56,7 @@ export default function(props) {
 		// }
 		transition(EDIT)
 	}
+	// console.log(props.interview);
 
 	return (
 		
