@@ -8,6 +8,7 @@ export default function useApplicationData() {
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
+  const ADD_SPOTS = "ADD_SPOTS"
 
   function reducer(state, action) {
     switch (action.type) {
@@ -16,6 +17,7 @@ export default function useApplicationData() {
         return { ...state, day: action.day }
 
       case SET_APPLICATION_DATA:
+        
         const {days, appointments, interviewers} = action
         return { ...state, 
           days, 
@@ -23,12 +25,17 @@ export default function useApplicationData() {
           interviewers }
 
       case SET_INTERVIEW: {
+        
+        // console.log("action: ", action);
+
         // console.log("action: ", action.interview);
         const { id, interview } = action
+        
         const appointment = {
           ...state.appointments[action.id],
           interview
         }
+        console.log("appointment: ", appointment);
         const appointments = {
           ...state.appointments,
           [id]: appointment
@@ -37,6 +44,9 @@ export default function useApplicationData() {
         return state
       }
 
+      case ADD_SPOTS:
+        console.log(state, action);
+      return;
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -96,8 +106,7 @@ export default function useApplicationData() {
       .put(`/api/appointments/${appointmentId}`, { interview })
       .then(() =>
         // setState((state) => ({ ...state, appointments, days: newday }))
-        dispatch({ type: SET_INTERVIEW, appointmentId, interview })
-  );
+        dispatch({ type: SET_INTERVIEW, appointmentId, interview })  );
   }
 
   const cancelInterview = (appointmentId, interview) => {

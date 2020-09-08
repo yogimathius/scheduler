@@ -22,6 +22,8 @@ const ERROR_DELETE = "ERROR_DELETE";
 
 export default function(props) {
 
+	console.log("props: ", props);
+	
 	const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
 	);
@@ -31,7 +33,9 @@ export default function(props) {
 			student: name,
 			interviewer
 		};
+		console.log("interview: ", interview);
 		transition(SAVING, true)
+		// console.log("props id: ", props.id);
 			props.bookInterview(props.id, interview)
 			.then(() => transition(SHOW))
 			.catch(error => transition(ERROR_SAVE, true))
@@ -105,7 +109,7 @@ export default function(props) {
 						interviewer={props.interview.interviewer.id}
 						interviewers={props.interviewers}
 						onCancel={() => back()}
-						onSave={save}						
+						onSave={() => save()}						
 					/>
 				)}
 
