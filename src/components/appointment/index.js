@@ -56,7 +56,6 @@ export default function (props) {
   function edit() {
     transition(EDIT);
   }
-
   return (
     <article data-testid="appointment" className="appointment">
       <Header />
@@ -87,8 +86,7 @@ export default function (props) {
       )}
 
       {mode === SHOW &&
-        props.interview.interviewer &&
-        props.interview.student && (
+        props.interview && (
           <Show
             student={props.interview.student}
             interviewer={props.interview.interviewer}
