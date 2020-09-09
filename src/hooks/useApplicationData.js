@@ -3,8 +3,6 @@ import axios from "axios";
 
 export default function useApplicationData() {
 
-
-
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
@@ -28,24 +26,25 @@ export default function useApplicationData() {
         
         // console.log("action: ", action);
 
-        // console.log("action: ", action.interview);
+        console.log("action: ", action.interview);
         const { id, interview } = action
         
         const appointment = {
-          ...state.appointments[action.id],
+          ...state.appointments[id],
           interview
         }
-        console.log("appointment: ", appointment);
+        // console.log("appointment: ", appointment);
         const appointments = {
           ...state.appointments,
           [id]: appointment
         }
         state = {...state, appointments}
+        console.log("state: ", state);
         return state
       }
 
       case ADD_SPOTS:
-        console.log(state, action);
+        // console.log(state, action);
       return;
       default:
         throw new Error(
@@ -101,19 +100,20 @@ export default function useApplicationData() {
     //     spots: interview === null ? day.spots + 1 : day.spots - 1,
     //   };
     // });
-    console.log("id: ", appointmentId, "interview: ", interview);
+    // console.log("id: ", appointmentId, "interview: ", interview);
     return axios
       .put(`/api/appointments/${appointmentId}`, { interview })
       .then(() =>
-        // setState((state) => ({ ...state, appointments, days: newday }))
-        dispatch({ type: SET_INTERVIEW, appointmentId, interview })  );
+      // setState((state) => ({ ...state, appointments, days: newday }))
+      dispatch({ type: SET_INTERVIEW, appointmentId, interview }))
+      .catch(error => console.log("error: ", error))
   }
 
   const cancelInterview = (appointmentId, interview) => {
     const url = `/api/appointments/${appointmentId}`;
 
     const dayID = getDayIDfromAppointmentID(state, appointmentId);
-    console.log("day id: ", dayID);
+    // console.log("day id: ", dayID);
     const newday = state.days.map((day) => {
       if (day.id !== dayID) {
         return day;

@@ -3,6 +3,7 @@ import InterviewerList from "components/InterviewerList";
 import Button from "components/Button";
 
 export default function (props) {
+  // console.log("props.name: ", props.name);
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
@@ -19,6 +20,7 @@ export default function (props) {
   };
 
   function validate() {
+    // console.log("props name: ", props.name);
     if (name === "") {
       setError("Student name cannot be blank");
       return;
@@ -36,7 +38,7 @@ export default function (props) {
             name="name"
             type="text"
             placeholder="Enter Student Name"
-            value={name}
+            value={name || "" }
             onChange={(event) => setName(event.target.value)}
             data-testid="student-name-input"
           />
