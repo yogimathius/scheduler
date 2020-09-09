@@ -30,13 +30,9 @@ export default function(props) {
 			student: name,
 			interviewer
 		};
-		// console.log("interview: ", interview);
 			transition(SAVING, true)
-			// console.log("props id: ", props.id);
 			props.bookInterview(props.id, interview)
 			.then(() => transition(SHOW))
-			.then(() => console.log("interview: ", props)
-			)
 			.catch(error => transition(ERROR_SAVE, true))
 	}
 	
@@ -44,22 +40,21 @@ export default function(props) {
 		transition(CONFIRM)
 	}
 
-	function deleteInterview(id, interview) {
+	function deleteInterview(id) {
 		transition(DELETING, true)
-		props.cancelInterview(id, interview)
+		props.cancelInterview(id)
 		.catch(error => { console.log("error: ", error);
 			transition(ERROR_DELETE, true)})
 		transition(EMPTY)
 	}
 
 	function edit(student, interviewer) {
-		// const interview = {
-		// 	student: student,
-		// 	interviewer: interviewer
-		// }
+		const interview = {
+			student: student,
+			interviewer: interviewer
+		}
 		transition(EDIT)
 	}
-	console.log("interview: ", props.interview);
 
 	return (
 		

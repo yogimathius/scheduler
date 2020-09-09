@@ -1,8 +1,4 @@
-import { 
-  getAppointmentsForDay, 
-  getInterview, 
-  getInterviewersForDay,
-  getDayIDfromAppointmentID, } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 const state = {
   days: [
@@ -130,12 +126,12 @@ test("getInterviewersForDay returns an array containing the correct appointment 
   });
 });
 
-test.skip("getInterviewersForDay returns an empty array when the days data is empty", () => {
+test("getInterviewersForDay returns an empty array when the days data is empty", () => {
   const result = getInterviewersForDay({ days: [] }, "Monday");
   expect(result.length).toEqual(0);
 });
 
-test.skip("getInterviewersForDay returns an empty array when the day is not found", () => {
+test("getInterviewersForDay returns an empty array when the day is not found", () => {
   const result = getInterviewersForDay(state, "Wednesday");
   expect(result.length).toEqual(0);
 });
