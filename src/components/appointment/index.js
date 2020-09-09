@@ -44,6 +44,7 @@ export default function (props) {
     transition(SAVING, true);
     props.cancelInterview(id).then(save(name, interviewer));
   }
+
   function deleteInterview(id) {
     transition(DELETING, true);
     props
