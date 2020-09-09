@@ -18,7 +18,7 @@ import Appointment from "components/appointment/index.js";
   A test that renders a React Component
 */
 describe("Appointment", () => {
-  it.skip("renders without crashing", () => {
+  it("renders without crashing", () => {
     render(<Appointment />);
   });
 });

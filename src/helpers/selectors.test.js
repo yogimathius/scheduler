@@ -49,11 +49,6 @@ const state = {
   }
 };
 
-test.skip("getDayIDfromAppointmentID returns an id matching the day the appointment is on", () => {
-  const result = getDayIDfromAppointmentID(state, 3);
-  expect(result).toEqual(1);
-});
-
 
 test("getAppointmentsForDay returns an array", () => {
   const result = getAppointmentsForDay(state, "Monday");
