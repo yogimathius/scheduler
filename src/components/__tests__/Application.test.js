@@ -9,7 +9,8 @@ import {
   prettyDOM, 
   getAllByTestId, 
   getByPlaceholderText, 
-  getByAltText } 
+  getByAltText,
+  queryByText } 
 from "@testing-library/react";
 
 import Application from "components/Application";
@@ -36,6 +37,7 @@ describe("Application", () => {
     const appointments = getAllByTestId(container, "appointment");
     const appointment = appointments[0];
   
+    // console.log("appointment: ", prettyDOM(appointment));
     fireEvent.click(getByAltText(appointment, "Add"));
   
     fireEvent.change(getByPlaceholderText(appointment, /enter student name/i), {
@@ -44,9 +46,12 @@ describe("Application", () => {
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
   
     fireEvent.click(getByText(appointment, "Save"));
-    // debug()
-    await waitForElement(() => getByText(appointment, "Lydia Miller-Jones"));
     expect(getByText(appointment, "Saving")).toBeInTheDocument();
-
+    // debug()
+    
+    expect(getByAltText(appointment, "Edit"));
+    await waitForElement(() => getByAltText(appointment, "Delete"));
+    await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
     });
+    
 })

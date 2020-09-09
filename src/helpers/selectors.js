@@ -1,18 +1,24 @@
-const getAppointmentsForDay = (state, day) => {
-	let apptArr = [];
-	const filteredDays = state.days.filter(days => days.name === day);
+// const getAppointmentsForDay = (state, day) => {
+// 	let apptArr = [];
+// 	const filteredDays = state.days.filter(days => days.name === day);
 
-	const dayMap = filteredDays.map(days => { 
-		const apptValues = Object.values(state.appointments)
-		days.appointments.forEach(appt => {
-			apptValues.forEach(apptValue => {
-				if (apptValue.id === appt) {
-					apptArr.push(apptValue)
-				}
-			})
-		})
-	})
-	return (day, apptArr);
+// 	const dayMap = filteredDays.map(days => { 
+// 		const apptValues = Object.values(state.appointments)
+// 		days.appointments.forEach(appt => {
+// 			apptValues.forEach(apptValue => {
+// 				if (apptValue.id === appt) {
+// 					apptArr.push(apptValue)
+// 				}
+// 			})
+// 		})
+// 	})
+// 	return (day, apptArr);
+// }
+
+function getAppointmentsForDay  (state, day)  {     
+	const found = state.days.find(d => day === d.name);      
+	if (state.days.length === 0 || found === undefined) return [];      
+	return found.appointments.map(id => state.appointments[id]); 
 }
 
 const getInterview = (state, interview) => {
@@ -40,7 +46,7 @@ const getInterviewersForDay = (state, day) => {
 	}
 	interviewersForDay = interviewersForDay.map(interviewer => state.interviewers[interviewer]);
 	return interviewersForDay;
-	}
+}
 
 
 

@@ -26,7 +26,7 @@ export default function useApplicationData() {
         
         // console.log("action: ", action);
 
-        console.log("action: ", action.interview);
+        // console.log("action: ", action.interview);
         const { id, interview } = action
         
         const appointment = {
@@ -39,7 +39,7 @@ export default function useApplicationData() {
           [id]: appointment
         }
         state = {...state, appointments}
-        console.log("state: ", state);
+        // console.log("state: ", state);
         return state
       }
 
