@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "components/appointment/styles.scss";
 import Header from "components/appointment/Header";
 import Show from "components/appointment/Show";
@@ -24,6 +24,8 @@ export default function (props) {
     props.interview ? SHOW : EMPTY
   );
 
+  // SAVE FUNCTION FOR BOOKING AND EDITING INTERVIEWS, CREATE IS FALSY FOR EDITING, TRUTHY FOR NEW APPOINTMENTS
+
   function save(name, interviewer, create=false) {
     const interview = {
       student: name,
@@ -34,15 +36,16 @@ export default function (props) {
       .bookInterview(props.id, interview, create)
       .then(() => transition(SHOW))
       .catch((error) =>{
-        console.log("error: ", error);
         transition(ERROR_SAVE, true);
       }) 
   }
 
+  // FOR THE CANCEL INTERVIEW BUTTON IN THE SHOW COMPONENT
   function cancel(id) {
     transition(CONFIRM);
   }
 
+  // DELETES AN APPOINTMENT
   function deleteInterview(id) {
     transition(DELETING, true);
     props
@@ -51,13 +54,27 @@ export default function (props) {
       .catch((error) => transition(ERROR_DELETE, true));
   }
 
+  // FOR THE EDIT BUTTON TO TRANSITION TO THE MODE FOR EDITING THE FORM
   function edit() {
     transition(EDIT);
   }
 
+  // MAKES CREATE IN THE SAVE FUNCTION TRUTHY (AFFECTS UPDATE SPOTS BY EITHER +1 ON TRUTHY OR 0 ON FALSY)
   function create(name, interviewer) {
     save(name, interviewer, true)
   }
+
+  // CONDITION TO RENDER SHOW OR EMPTY WITH WEBSOCKET
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
+
+   
   return (
     <article data-testid="appointment" className="appointment">
       <Header />

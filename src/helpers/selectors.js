@@ -1,3 +1,6 @@
+// GETS APPOINTMENTS FOR DAY SPECIFIED
+
+
 const getAppointmentsForDay = (state, day) => {
   let appointmentsForDay = [];
   const dayName = day;
@@ -12,6 +15,8 @@ const getAppointmentsForDay = (state, day) => {
   return appointmentsForDay;
 };
 
+
+// GETS INTERVIEW OBJECT 
 const getInterview = (state, interview) => {
   let interviewObj = {};
   if (!interview) {
@@ -24,23 +29,8 @@ const getInterview = (state, interview) => {
   return interviewObj;
 };
 
-// const getInterviewersForDay = (state, day) => {
-// 	let intArr = [];
-// 	const filteredDays = state.days.filter(days => days.name === day);
+// GET INTERVIEWERS FOR DAY SPECIFIED
 
-// 	const dayMap = filteredDays.map(days => {
-// 		const intValues = Object.values(state.interviewers)
-
-// 		days.appointments.forEach(int => {
-// 			intValues.forEach(intValue => {
-// 				if (intValue.id === int) {
-// 					intArr.push(intValue)
-// 				}
-// 			})
-// 		})
-// 	})
-// 	return (intArr);
-// }
 const getInterviewersForDay = (state, day) => {
   let interviewersForDay = [];
   const dayName = day;
