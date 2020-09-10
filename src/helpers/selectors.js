@@ -1,19 +1,15 @@
 const getAppointmentsForDay = (state, day) => {
-  let apptArr = [];
-  const filteredDays = state.days.filter((days) => days.name === day);
-
-  filteredDays.map((days) => {
-    const apptValues = Object.values(state.appointments);
-
-    days.appointments.forEach((appt) => {
-      apptValues.forEach((apptValue) => {
-        if (apptValue.id === appt) {
-          apptArr.push(apptValue);
-        }
-      });
-    });
-  });
-  return (day, apptArr);
+  let appointmentsForDay = [];
+  const dayName = day;
+  const selectedDay = state.days.filter(day => day.name === dayName)[0];
+  if(!selectedDay){
+    return appointmentsForDay;
+  }
+  for (const appointment of selectedDay.appointments) {
+    appointmentsForDay.push(appointment);
+  }
+  appointmentsForDay = appointmentsForDay.map(appointment => state.appointments[appointment]);
+  return appointmentsForDay;
 };
 
 const getInterview = (state, interview) => {
