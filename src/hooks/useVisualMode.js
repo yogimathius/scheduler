@@ -4,6 +4,8 @@ export default function useVisualMode(initial) {
   const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
+  // TRANSITION TO AND GO BACK FROM DIFFERENT COMPONENTS IN APPOINTMENT COMPONENT
+
   function transition(newMode, replace = false) {
     setMode(newMode);
     if (replace === true) history.pop();

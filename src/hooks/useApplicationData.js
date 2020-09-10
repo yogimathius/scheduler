@@ -13,6 +13,8 @@ export default function useApplicationData() {
     interviewers: {},
   });
 
+  // UPDATE SPOTS IN DAYS FOR THE REDUCER
+
   function recalculateDays(days, appointments) {
     return days.map((day) => {
       let spots = 0;
@@ -25,6 +27,9 @@ export default function useApplicationData() {
       return { ...day, spots };
     });
   }
+
+  // REDUCER INCLUDES SETTING DAY, DATA, AND INTERVIEW FOR BOOKING AND CANCELING APPOINTMENTS
+
   function reducer(state, action) {
     switch (action.type) {
       case SET_DAY:
@@ -57,6 +62,7 @@ export default function useApplicationData() {
     }
   }
 
+  // FOR SPOTS REMAINING W/O WEBSOCKET (FOR TESTING PURPOSES WITH JEST)
   function updateSpots(one) {
     const dayObj = state.days.find((item) => item.name === state.day);
     dayObj.spots += one;
@@ -65,6 +71,7 @@ export default function useApplicationData() {
 
   const setDay = (day) => dispatch({ type: SET_DAY, day });
 
+  // RETRIEVES API AND SETS IT WITH REDUCER
   useEffect(() => {
     Promise.all([
       axios.get("/api/days"),
@@ -83,6 +90,7 @@ export default function useApplicationData() {
     });
   }, []);
 
+  // BOOKS INTERVIEW
   function bookInterview(appointmentId, interview, create) {
     const url = `/api/appointments/${appointmentId}`;
     const promise = axios.put(url, { interview }).then(() => {
@@ -97,6 +105,7 @@ export default function useApplicationData() {
     return promise;
   }
 
+  // CANCELS AN INTERVIEW
   const cancelInterview = (appointmentId, interview) => {
     const url = `/api/appointments/${appointmentId}`;
     const promise = axios.delete(url).then((res) => {
@@ -111,6 +120,7 @@ export default function useApplicationData() {
     return promise;
   };
 
+  // FOR WEBSOCKET
   useEffect(() => {
     const socket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
