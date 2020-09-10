@@ -1,7 +1,6 @@
 import "components/InterviewerList.scss"
 import React from "react";
 import InterviewerListItem from "./InterviewerListItem";
-import classnames from 'classnames/bind';
 export default function InterviewerList(props) {
 
 	const {interviewers} = props;

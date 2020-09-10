@@ -2,7 +2,7 @@ const getAppointmentsForDay = (state, day) => {
   let apptArr = [];
   const filteredDays = state.days.filter((days) => days.name === day);
 
-  const dayMap = filteredDays.map((days) => {
+  filteredDays.map((days) => {
     const apptValues = Object.values(state.appointments);
 
     days.appointments.forEach((appt) => {
@@ -13,7 +13,7 @@ const getAppointmentsForDay = (state, day) => {
       });
     });
   });
-  return day, apptArr;
+  return (day, apptArr);
 };
 
 const getInterview = (state, interview) => {
