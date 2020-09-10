@@ -24,14 +24,14 @@ export default function (props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
+  function save(name, interviewer, create=false) {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING, true);
     props
-      .bookInterview(props.id, interview)
+      .bookInterview(props.id, interview, create)
       .then(() => transition(SHOW))
       .catch((error) =>{
         transition(ERROR_SAVE, true);
@@ -54,6 +54,9 @@ export default function (props) {
     transition(EDIT);
   }
 
+  function create(name, interviewer) {
+    save(name, interviewer, true)
+  }
   useEffect(() => {
     if (props.interview && mode === EMPTY) {
      transition(SHOW);
@@ -62,7 +65,6 @@ export default function (props) {
      transition(EMPTY);
     }
    }, [props.interview, transition, mode]);
-   
   return (
     <article data-testid="appointment" className="appointment">
       <Header />
@@ -107,7 +109,7 @@ export default function (props) {
         <Form
           interviewers={props.interviewers}
           onCancel={() => back()}
-          onSave={save}
+          onSave={create}
         />
       )}
       {mode === ERROR_DELETE && (

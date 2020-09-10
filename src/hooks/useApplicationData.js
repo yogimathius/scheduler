@@ -57,6 +57,12 @@ export default function useApplicationData() {
     }
   }
 
+  function updateSpots(one) {
+    const dayObj = state.days.find((item) => item.name === state.day);
+    dayObj.spots += one;
+    return state.days;
+  }
+
   const setDay = (day) => dispatch({ type: SET_DAY, day });
 
   useEffect(() => {
@@ -77,9 +83,10 @@ export default function useApplicationData() {
     });
   }, []);
 
-  function bookInterview(appointmentId, interview) {
+  function bookInterview(appointmentId, interview, create) {
     const url = `/api/appointments/${appointmentId}`;
     const promise = axios.put(url, { interview }).then(() => {
+      if (create) updateSpots(-1);
       dispatch({
         type: SET_INTERVIEW,
         id: appointmentId,
@@ -93,6 +100,7 @@ export default function useApplicationData() {
   const cancelInterview = (appointmentId, interview) => {
     const url = `/api/appointments/${appointmentId}`;
     const promise = axios.delete(url).then((res) => {
+      updateSpots(1);
       dispatch({
         type: SET_INTERVIEW,
         id: appointmentId,
