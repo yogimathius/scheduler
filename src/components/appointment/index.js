@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "components/appointment/styles.scss";
 import Header from "components/appointment/Header";
 import Show from "components/appointment/Show";
@@ -24,17 +24,16 @@ export default function (props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer, create=false) {
+  function save(name, interviewer) {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING, true);
     props
-      .bookInterview(props.id, interview, create)
+      .bookInterview(props.id, interview)
       .then(() => transition(SHOW))
       .catch((error) =>{
-        console.log("error: ", error);
         transition(ERROR_SAVE, true);
       }) 
   }
@@ -55,9 +54,15 @@ export default function (props) {
     transition(EDIT);
   }
 
-  function create(name, interviewer) {
-    save(name, interviewer, true)
-  }
+  useEffect(() => {
+    if (props.interview && mode === EMPTY) {
+     transition(SHOW);
+    }
+    if (props.interview === null && mode === SHOW) {
+     transition(EMPTY);
+    }
+   }, [props.interview, transition, mode]);
+   
   return (
     <article data-testid="appointment" className="appointment">
       <Header />
@@ -102,7 +107,7 @@ export default function (props) {
         <Form
           interviewers={props.interviewers}
           onCancel={() => back()}
-          onSave={create}
+          onSave={save}
         />
       )}
       {mode === ERROR_DELETE && (
