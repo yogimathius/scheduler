@@ -64,7 +64,6 @@ describe("Application", () => {
 
     const appointments = getAllByTestId(container, "appointment");
     const appointment = appointments[0];
-
     fireEvent.click(getByAltText(container, "Delete"));
     expect(getByText(container, "Delete the appointment?")).toBeInTheDocument();
     fireEvent.click(getByText(container, "Confirm"));
@@ -73,12 +72,11 @@ describe("Application", () => {
     const day = getAllByTestId(container, "day").find((day) =>
       queryByText(day, "Monday")
     );
-    expect(getByText(day, "2 spots remaining")).toBeInTheDocument();
+    expect(getByText(day, "1 spot remaining")).toBeInTheDocument();
   });
 
   it("loads data, edits an interview and keeps the spots remaining for Monday the same", async () => {
     const { container, debug } = render(<Application />);
-
     await waitForElement(() => getByText(container, "Archie Cohen"));
 
     const appointment = getAllByTestId(
