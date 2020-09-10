@@ -3,7 +3,28 @@ import axios from 'axios'
 import getAppointmentsForDay from 'helpers/selectors'
 
 export default function useApplicationData() {
-  
+	// const getDayIDfromAppointmentID = (state) => {
+	// 	let dayID;
+	// 	state.days.map((day) => {
+	// 		return dayID;
+	// 	});
+	// }
+	// const dayID = getDayIDfromAppointmentID(state);
+	// const days = state.days.map((day) => {
+	// 	if (day.id !== dayID) {
+	// 		return day;
+	// 	}
+	// 	if (interview.student) {
+	// 		return {
+	// 			...day,
+	// 			spots: day.spots
+	// 		}
+	// 	}
+	// 	return {
+	// 		...day,
+	// 		spots: interview === null ? day.spots + 1 : day.spots - 1,
+	// 	};
+	// });
 
 
   const SET_DAY = "SET_DAY";
@@ -12,7 +33,7 @@ export default function useApplicationData() {
 
   function reducer(state, action) {
     switch (action.type) {
-
+			
       case SET_DAY:
         return { ...state, day: action.day }
 
@@ -21,11 +42,11 @@ export default function useApplicationData() {
         return { ...state, 
           days, 
           appointments, 
-          interviewers }
+					interviewers 
+				}
 
       case SET_INTERVIEW: {
-				const { id, interview } = action
-				console.log("interview: ", interview);
+				const { id, interview, days } = action
 				const appointment = {
           ...state.appointments[action.id],
           interview
@@ -34,9 +55,8 @@ export default function useApplicationData() {
           ...state.appointments,
           [id]: appointment
 				}
-				// console.log("appointments: ", appointments);
-				state = {...state, appointments,}
-				console.log("state: ", state.appointments[1]);
+
+				state = {...state, appointments, days}
         return state
       }
 
@@ -54,12 +74,11 @@ export default function useApplicationData() {
 		interviewers: {},
 	});
 
-	const getDayIDfromAppointmentID = (state, appointmentID) => {
-		let dayID;
-		const days = state.days.map((day) => {
-			return dayID;
-		});
+	const updateSpots = (one) => {
+		const dayObj = state.days.find(item => item.name === state.day);
+		dayObj.spots+=one;
 	}
+
 		const setDay = day => dispatch({ type: SET_DAY, day });
 
 		useEffect(() => {
@@ -76,39 +95,28 @@ export default function useApplicationData() {
 			});
 		}, []);
 
-		function bookInterview(appointmentId, interview) {
-    // const dayID = getDayIDfromAppointmentID(state, appointmentId);
-    // const newday = state.days.map((day) => {
-    //   if (day.id !== dayID) {
-    //     return day;
-    //   }
-    //   return {
-    //     ...day,
-    //     spots: interview === null ? day.spots + 1 : day.spots - 1,
-    //   };
-    // });
-		return axios
-		.put(`/api/appointments/${appointmentId}`, { interview })
-		.then(() =>
-		dispatch({ type: SET_INTERVIEW, id: appointmentId, interview })
+		function bookInterview(appointmentId, interview, create) {
+			console.log("student: ", interview.student);
+		 const url = `/api/appointments/${appointmentId}`;
+		 const promise = axios.put(url, { interview })
+			.then(() => {
+				if (create)
+			updateSpots(-1)
+			dispatch({ type: SET_INTERVIEW, id: appointmentId, interview, days: state.days })
+			}
 		);
+		return promise;
   }
 
-		const cancelInterview = (appointmentId, interview) => {
-			const url = `/api/appointments/${appointmentId}`;
-
-      // if (day.id !== dayID) {
-      //   return day;
-      // }
-      // return {
-      //   ...day,
-			// 	spots: interview === null ? day.spots + 1 : day.spots - 1,
-			// }
-				return axios
-				.delete(url)
-				.then((res) =>
-				dispatch({ type: SET_INTERVIEW, appointments: res.data })
-				);
-			};
-			return { state, setDay, bookInterview, cancelInterview };	
-		}	
+	const cancelInterview = (appointmentId, interview) => {
+		const url = `/api/appointments/${appointmentId}`;
+				const promise = axios.delete(url)
+					.then((res) => {
+						updateSpots(1)
+						dispatch({ type: SET_INTERVIEW, id: appointmentId, interview: null, days: state.days })
+					}
+			);
+			return promise
+		};
+		return { state, setDay, bookInterview, cancelInterview };	
+	}	

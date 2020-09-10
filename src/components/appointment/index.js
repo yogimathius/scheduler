@@ -24,25 +24,23 @@ export default function (props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
+  function save(name, interviewer, create=false) {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING, true);
     props
-      .bookInterview(props.id, interview)
+      .bookInterview(props.id, interview, create)
       .then(() => transition(SHOW))
-      .catch((error) => transition(ERROR_SAVE, true));
+      .catch((error) =>{
+        console.log("error: ", error);
+        transition(ERROR_SAVE, true);
+      }) 
   }
 
   function cancel(id) {
     transition(CONFIRM);
-  }
-
-  function saveEdit(id, name, interviewer) {
-    transition(SAVING, true);
-    props.cancelInterview(id).then(save(name, interviewer));
   }
 
   function deleteInterview(id) {
@@ -55,6 +53,10 @@ export default function (props) {
 
   function edit() {
     transition(EDIT);
+  }
+
+  function create(name, interviewer) {
+    save(name, interviewer, true)
   }
   return (
     <article data-testid="appointment" className="appointment">
@@ -100,7 +102,7 @@ export default function (props) {
         <Form
           interviewers={props.interviewers}
           onCancel={() => back()}
-          onSave={save}
+          onSave={create}
         />
       )}
       {mode === ERROR_DELETE && (
