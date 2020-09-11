@@ -25,8 +25,10 @@ export default function (props) {
       setError("Please select an interviewer")
       return;
     }
-    setError("");
-    props.onSave(name, interviewer);
+    if (name !== "" && interviewer !== null){
+      setError("");
+      props.onSave(name, interviewer);
+    }
   }
 
   return (
@@ -39,7 +41,10 @@ export default function (props) {
             type="text"
             placeholder="Enter Student Name"
             value={name || "" }
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) => {
+              setName(event.target.value) 
+              setError("")
+            }}
             data-testid="student-name-input"
           />
           <section className="appointment__validation">{error}</section>

@@ -1,66 +1,18 @@
 import { useReducer, useEffect } from "react";
 import axios from "axios";
-
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW
+} from "reducers/application";
 export default function useApplicationData() {
-  const SET_DAY = "SET_DAY";
-  const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
-  const SET_INTERVIEW = "SET_INTERVIEW";
-  // const ws = useRef(null);
+
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
     days: [],
     appointments: {},
     interviewers: {},
   });
-
-  // UPDATE SPOTS IN DAYS FOR THE REDUCER
-
-  function recalculateDays(days, appointments) {
-    return days.map((day) => {
-      let spots = 0;
-
-      day.appointments
-        .map((appointmentId) =>
-          !appointments[appointmentId].interview ? 1 : 0
-        )
-        .forEach((num) => (spots += num));
-      return { ...day, spots };
-    });
-  }
-
-  // REDUCER INCLUDES SETTING DAY, DATA, AND INTERVIEW FOR BOOKING AND CANCELING APPOINTMENTS
-
-  function reducer(state, action) {
-    switch (action.type) {
-      case SET_DAY:
-        return { ...state, day: action.day };
-
-      case SET_APPLICATION_DATA:
-        const { days, appointments, interviewers } = action;
-        return { ...state, days, appointments, interviewers };
-
-      case SET_INTERVIEW: {
-        const { id, interview } = action;
-        const appointment = {
-          ...state.appointments[action.id],
-          interview,
-        };
-        const appointments = {
-          ...state.appointments,
-          [id]: appointment,
-        };
-        let days = recalculateDays(state.days, appointments);
-
-        state = { ...state, appointments, days };
-        return state;
-      }
-
-      default:
-        throw new Error(
-          `Tried to reduce with unsupported action type: ${action.type}`
-        );
-    }
-  }
 
   // FOR SPOTS REMAINING W/O WEBSOCKET (FOR TESTING PURPOSES WITH JEST)
   function updateSpots(one) {
@@ -127,13 +79,12 @@ export default function useApplicationData() {
     socket.onopen = () => socket.send("ping");
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log("data: ", data);
       if (data.type === SET_INTERVIEW) {
         dispatch(data);
       }
     };
 
-    socket.onclose = () => console.log("ws closed");
+    // socket.onclose = () => console.log("ws closed");
     return () => {
       socket.close();
     };
