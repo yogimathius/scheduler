@@ -1,8 +1,12 @@
 import React from "react";
 
-import { fireEvent } from "@testing-library/react";
-
-import { render, cleanup } from "@testing-library/react";
+import {
+  fireEvent,
+  getByAltText,
+  getAllByTestId,
+  render,
+  cleanup,
+} from "@testing-library/react";
 
 import Form from "components/appointment/Form";
 
@@ -13,8 +17,8 @@ describe("Form", () => {
     {
       id: 1,
       name: "Sylvia Palmer",
-      avatar: "https://i.imgur.com/LpaY82x.png"
-    }
+      avatar: "https://i.imgur.com/LpaY82x.png",
+    },
   ];
 
   it("renders without student name if not provided", () => {
@@ -45,25 +49,29 @@ describe("Form", () => {
 
   it("can successfully save after trying to submit an empty student name", () => {
     const onSave = jest.fn();
-    const { getByText, getByPlaceholderText, queryByText } = render(
-      <Form interviewers={interviewers} onSave={onSave} />
-    );
+    const {
+      getByText,
+      getByPlaceholderText,
+      queryByText,
+      debug,
+      container,
+    } = render(<Form interviewers={interviewers} onSave={onSave} />);
 
     fireEvent.click(getByText("Save"));
 
-    expect(getByText(/student name cannot be blank/i)).toBeInTheDocument();
+    expect(getByText(/Student name cannot be blank/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
 
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
+    fireEvent.click(getByAltText(container, "Sylvia Palmer"));
 
     fireEvent.click(getByText("Save"));
 
-    expect(queryByText(/student name cannot be blank/i)).toBeNull();
+    expect(queryByText(/Student name cannot be blank/i)).toBeNull();
 
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
   });
 
   it("calls onCancel and resets the input field", () => {
@@ -80,7 +88,7 @@ describe("Form", () => {
     fireEvent.click(getByText("Save"));
 
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
-      target: { value: "Lydia Miller-Jones" }
+      target: { value: "Lydia Miller-Jones" },
     });
 
     fireEvent.click(getByText("Cancel"));
