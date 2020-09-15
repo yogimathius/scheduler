@@ -40,7 +40,7 @@
           ...state.appointments,
           [id]: appointment,
         };
-        let days = recalculateDays(state.days, appointments);
+        const days = recalculateDays(state.days, appointments);
 
         state = { ...state, appointments, days };
         return state;
